@@ -1,3 +1,5 @@
+import { OBJLoader } from './loaders/OBJLoader.js';
+
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
@@ -29,6 +31,41 @@ cylinder.rotation.z = 45;
 
 scene.add(cylinder);
 
+// Dust 2 loader
+const loader = new THREE.OBJLoader();
+
+    // load a resource
+    loader.load(
+        // resource URL
+        'src/assets/de_dust2/source/de_dust2.obj',
+        // called when resource is loaded
+        function ( object ) {
+
+            scene.add( object );
+
+        },
+        // called when loading is in progresses
+        function ( xhr ) {
+
+            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+        },
+        // called when loading has errors
+        function ( error ) {
+
+            console.log( 'An error happened' );
+
+        }
+    );
+
+
+// Alternatively, to parse a previously loaded JSON structure
+const object = loader.parse( a_json_object );
+
+scene.add( object );
+
+
+
 // White directional light at half intensity shining from the top.
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
 directionalLight.target =
@@ -55,3 +92,32 @@ function draw() {
     renderer.render(scene, camera);
 }
 draw();
+
+
+function ImportDust2() {
+    const loader = new OBJLoader();
+
+    // load a resource
+    loader.load(
+        // resource URL
+        'src/assets/de_dust2/source/de_dust2.obj',
+        // called when resource is loaded
+        function ( object ) {
+
+            scene.add( object );
+
+        },
+        // called when loading is in progresses
+        function ( xhr ) {
+
+            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+        },
+        // called when loading has errors
+        function ( error ) {
+
+            console.log( 'An error happened' );
+
+        }
+    );
+}
