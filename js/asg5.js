@@ -59,13 +59,6 @@ const loader = new THREE.OBJLoader();
     );
 
 
-// Alternatively, to parse a previously loaded JSON structure
-const object = loader.parse( a_json_object );
-
-scene.add( object );
-
-
-
 // White directional light at half intensity shining from the top.
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
 directionalLight.target =
