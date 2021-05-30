@@ -38,3 +38,10 @@ loader.load(
 		console.error( 'An error happened' );
 	}
 );
+
+function draw() {
+    requestAnimationFrame(draw);
+
+    renderer.render(scene, camera);
+}
+draw();
