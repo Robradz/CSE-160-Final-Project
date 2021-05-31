@@ -1,7 +1,7 @@
 import { OBJLoader } from '../js/OBJLoader.js';
 import { GLTFLoader } from '../js/GLTFLoader.js';
 import { FirstPersonControls } from '../js/FirstPersonCamera.js';
-
+import { PointerLockControls  } from '../js/PointerLockControl.js';
 
 const loader = new THREE.ObjectLoader();
 
@@ -14,11 +14,12 @@ let camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeigh
 // Creates a rendering context (similar to canvas.getContext(webgl))
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0xEEEEEE);
 
 // Create camera controls
-const controls = new FirstPersonControls(camera, renderer.domElement);
+const controls = new PointerLockControls(camera, renderer.domElement);
 camera.position.z = 100;
-controls.update(); //controls.update() must be called after any 
+//controls.update(); //controls.update() must be called after any 
 // manual changes to the camera's transform
 
 document.body.appendChild(renderer.domElement);
@@ -65,6 +66,7 @@ gltfLoader.load(
 );
 
 function draw() {
+	renderer.clear();
     requestAnimationFrame(draw);
 
     renderer.render(scene, camera);
