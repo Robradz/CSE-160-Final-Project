@@ -15,8 +15,8 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Create camera controls
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-camera.position.y = 200;
+const controls = new FirstPersonControls(camera, renderer.domElement);
+camera.position.z = 100;
 controls.update(); //controls.update() must be called after any 
 // manual changes to the camera's transform
 
