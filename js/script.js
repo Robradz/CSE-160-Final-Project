@@ -1,4 +1,6 @@
 import { OBJLoader } from '../js/OBJLoader.js';
+import { GLTFLoader } from '../js/GLTFLoader.js';
+
 
 const loader = new THREE.ObjectLoader();
 
@@ -14,7 +16,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Create camera controls
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-camera.position.z = 100;
+camera.position.y = 200;
 controls.update(); //controls.update() must be called after any 
 // manual changes to the camera's transform
 
@@ -22,35 +24,36 @@ document.body.appendChild(renderer.domElement);
 
 // White directional light at half intensity shining from the top.
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
+directionalLight.position.x = 1;
+directionalLight.position.y = 1;
+directionalLight.position.z = 1;
 scene.add(directionalLight);
 
-objLoader.load(
-	// resource URL
-	'../src/assets/AWPDragonLore.obj',
-	// called when resource is loaded
-	function ( object ) {
-		object.rotation.x = -90;
-		scene.add( object );
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-	},
-	// called when loading has errors
-	function ( error ) {
-		console.log( 'An error happened' );
-	}
-);
+const directionalLight2 = new THREE.DirectionalLight( 0xffffff, 1.0 );
+directionalLight2.position.x = -1;
+directionalLight2.position.y = 1;
+directionalLight2.position.z = -1;
+scene.add(directionalLight2);
 
-objLoader.load(
+const gltfLoader = new GLTFLoader();
+
+// Load a glTF resource
+gltfLoader.load(
 	// resource URL
-	'../src/assets/de_dust2/source/de_dust2/de_dust2.obj',
-	// called when resource is loaded
-	function ( object ) {
-		object.rotation.x = -Math.PI / 2;
-		scene.add( object );
+	'../de_dust2_-_cs_map/scene.gltf',
+	// called when the resource is loaded
+	function ( gltf ) {
+
+		scene.add( gltf.scene );
+
+		gltf.animations; // Array<THREE.AnimationClip>
+		gltf.scene; // THREE.Group
+		gltf.scenes; // Array<THREE.Group>
+		gltf.cameras; // Array<THREE.Camera>
+		gltf.asset; // Object
+
 	},
-	// called when loading is in progresses
+	// called while loading is progressing
 	function ( xhr ) {
 		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 	},
