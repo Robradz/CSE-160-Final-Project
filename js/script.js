@@ -1,5 +1,6 @@
 import { OBJLoader } from '../js/OBJLoader.js';
 import { GLTFLoader } from '../js/GLTFLoader.js';
+import { FirstPersonControls } from '../js/FirstPersonCamera.js';
 
 
 const loader = new THREE.ObjectLoader();
