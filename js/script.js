@@ -18,7 +18,9 @@ renderer.setClearColor(0xEEEEEE);
 
 // Create camera controls
 const controls = new PointerLockControls(camera, renderer.domElement);
-camera.position.z = 100;
+let clock = new THREE.Clock();
+
+camera.position.z = 5000;
 //controls.update(); //controls.update() must be called after any 
 // manual changes to the camera's transform
 
@@ -65,10 +67,40 @@ gltfLoader.load(
 	}
 );
 
+
+let keyboard = [];
+
+addEventListener('keydown', (e)=>{
+	keyboard[e.key] = true;
+ });
+
+ 
+addEventListener('keyup', (e)=>{
+	keyboard[e.key] = false;
+ });
+
+ function keyPress()
+ {	
+	 // move forward
+	 if(keyboard['w'])	{controls.moveForward(1);}
+	 // move back
+	 if(keyboard['s'])	{controls.moveForward(-1);}
+
+	 // move left
+	 if(keyboard['d'])	{controls.moveRight(1);}
+	 // move right
+	 if(keyboard['a'])	{controls.moveRight(-1);}
+ }
+
+
+
+//controls.addEventListener('lock', () => menuPanel.style.display = 'none');
+//controls.addEventListener('unlock', () => menuPanel.style.display = 'block');
+
 function draw() {
 	renderer.clear();
+	keyPress();
     requestAnimationFrame(draw);
-
     renderer.render(scene, camera);
 }
 draw();
