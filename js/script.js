@@ -68,28 +68,27 @@ gltfLoader.load(
 );
 
 
+
+document.getElementById("accept_control").onclick = ()=>{controls.lock();}
+
 let keyboard = [];
 
-addEventListener('keydown', (e)=>{
-	keyboard[e.key] = true;
- });
+addEventListener('keydown', (e)=>{keyboard[e.key] = true;});
 
- 
-addEventListener('keyup', (e)=>{
-	keyboard[e.key] = false;
- });
+addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 
- function keyPress()
+ function keyPress(delta)
  {	
+	 let speed =  2;
 	 // move forward
-	 if(keyboard['w'])	{controls.moveForward(1);}
+	 if(keyboard['w'])	{controls.moveForward(speed);}
 	 // move back
-	 if(keyboard['s'])	{controls.moveForward(-1);}
+	 if(keyboard['s'])	{controls.moveForward(-speed);}
 
 	 // move left
-	 if(keyboard['d'])	{controls.moveRight(1);}
+	 if(keyboard['d'])	{controls.moveRight(speed);}
 	 // move right
-	 if(keyboard['a'])	{controls.moveRight(-1);}
+	 if(keyboard['a'])	{controls.moveRight(-speed);}
  }
 
 
@@ -98,8 +97,10 @@ addEventListener('keyup', (e)=>{
 //controls.addEventListener('unlock', () => menuPanel.style.display = 'block');
 
 function draw() {
+	let delta = clock.getDelta;
 	renderer.clear();
-	keyPress();
+	keyPress(delta);
+
     requestAnimationFrame(draw);
     renderer.render(scene, camera);
 }
