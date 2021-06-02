@@ -84,10 +84,9 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
  function keyPress(delta)
  {	
 	 let speed =  2;
-	 let move = movementBound(camera.position.x, camera.position.y,camera.position.z);
+
 	 // move forward
-	 if(keyboard['w'])	{
-		 controls.moveForward(speed);}
+	 if(keyboard['w'])	{controls.moveForward(speed);}
 	 // move back
 	 if(keyboard['s'])	{controls.moveForward(-speed);}
 
@@ -113,10 +112,10 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
  // prevents camera from leaving platform
  function movementBound(x, y, z)
  {
-	if(x < -1800 && x > -2000 && z < -1300 && z > -1300)
-	{
-		return true;
-	}
+	if(x < -2050){camera.position.x = -2050;}
+	if(x > -1775){camera.position.x = -1775;}
+	if(z < -1590){camera.position.z = -1590;}
+	if(z > -1300){camera.position.z = -1300;}
  }
 
 
@@ -128,6 +127,7 @@ function draw() {
 	// keyboard stuff
 	let delta = clock.getDelta;
 	keyPress(delta);
+	movementBound(camera.position.x, camera.position.y,camera.position.z);
 	renderer.clear();
 	
 	
