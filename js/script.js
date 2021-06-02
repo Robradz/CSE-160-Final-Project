@@ -20,9 +20,9 @@ renderer.setClearColor(0xEEEEEE);
 const controls = new PointerLockControls(camera, renderer.domElement);
 let clock = new THREE.Clock();
 
-camera.position.x = 500;
-camera.position.y = 1200;
-camera.position.z = 5;
+camera.position.x = -1900;
+camera.position.y = 1130;
+camera.position.z = -1400;
 //controls.update(); //controls.update() must be called after any 
 // manual changes to the camera's transform
 
@@ -127,6 +127,8 @@ document.getElementById("accept_control").onclick = ()=>{controls.lock();}
 
 let keyboard = [];
 
+let crouch = false;
+
 addEventListener('keydown', (e)=>{keyboard[e.key] = true;});
 
 addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
@@ -134,8 +136,10 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
  function keyPress(delta)
  {	
 	 let speed =  2;
+	 let move = movementBound(camera.position.x, camera.position.y,camera.position.z);
 	 // move forward
-	 if(keyboard['w'])	{controls.moveForward(speed);}
+	 if(keyboard['w'])	{
+		 controls.moveForward(speed);}
 	 // move back
 	 if(keyboard['s'])	{controls.moveForward(-speed);}
 
@@ -143,6 +147,28 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 	 if(keyboard['d'])	{controls.moveRight(speed);}
 	 // move right
 	 if(keyboard['a'])	{controls.moveRight(-speed);}
+
+	 // crouch
+	 if(keyboard['c'])	
+	 {
+		crouch = !crouch;
+
+		if(crouch){camera.position.y = 1080;}
+		else{camera.position.y = 1130;}
+		
+	
+	}
+
+	 if(keyboard['p'])	{console.log(camera.position);}
+ }
+
+ // prevents camera from leaving platform
+ function movementBound(x, y, z)
+ {
+	if(x < -1800 && x > -2000 && z < -1300 && z > -1300)
+	{
+		return true;
+	}
  }
 
 
@@ -151,9 +177,13 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 //controls.addEventListener('unlock', () => menuPanel.style.display = 'block');
 
 function draw() {
+	// keyboard stuff
 	let delta = clock.getDelta;
-	renderer.clear();
 	keyPress(delta);
+	renderer.clear();
+	
+	
+
 
 	if (gun) {
 		gun.position.x = camera.position.x;
