@@ -2,6 +2,7 @@ import { OBJLoader } from '../js/OBJLoader.js';
 import { GLTFLoader } from '../js/GLTFLoader.js';
 import { FirstPersonControls } from '../js/FirstPersonCamera.js';
 import { PointerLockControls  } from '../js/PointerLockControl.js';
+import { Vector3 } from './three.module.js';
 
 const loader = new THREE.ObjectLoader();
 
@@ -42,15 +43,17 @@ directionalLight2.position.z = -5;
 scene.add(directionalLight2);
 
 const gltfLoader = new GLTFLoader();
+let map, gun, enemy;
 
 // Load a glTF resource
 gltfLoader.load(
 	// resource URL
-	'../de_dust2_-_cs_map/scene.gltf',
+	'../gltf/de_dust2_-_cs_map/scene.gltf',
 	// called when the resource is loaded
 	function ( gltf ) {
 
 		scene.add( gltf.scene );
+		map = gltf.scene;
 
 		gltf.animations; // Array<THREE.AnimationClip>
 		gltf.scene; // THREE.Group
@@ -69,7 +72,57 @@ gltfLoader.load(
 	}
 );
 
+gltfLoader.load(
+	// resource URL
+	'../gltf/ak_47/scene.gltf',
+	// called when the resource is loaded
+	function ( gltf ) {
 
+		scene.add( gltf.scene );
+		gun = gltf.scene;
+
+		gltf.animations; // Array<THREE.AnimationClip>
+		gltf.scene; // THREE.Group
+		gltf.scenes; // Array<THREE.Group>
+		gltf.cameras; // Array<THREE.Camera>
+		gltf.asset; // Object
+
+	},
+	// called while loading is progressing
+	function ( xhr ) {
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+	},
+	// called when loading has errors
+	function ( error ) {
+		console.log( 'An error happened' );
+	}
+);
+
+gltfLoader.load(
+	// resource URL
+	'../gltf/enemy/scene.gltf',
+	// called when the resource is loaded
+	function ( gltf ) {
+
+		scene.add( gltf.scene );
+		enemy = gltf.scene;
+
+		gltf.animations; // Array<THREE.AnimationClip>
+		gltf.scene; // THREE.Group
+		gltf.scenes; // Array<THREE.Group>
+		gltf.cameras; // Array<THREE.Camera>
+		gltf.asset; // Object
+
+	},
+	// called while loading is progressing
+	function ( xhr ) {
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+	},
+	// called when loading has errors
+	function ( error ) {
+		console.log( 'An error happened' );
+	}
+);
 
 document.getElementById("accept_control").onclick = ()=>{controls.lock();}
 
@@ -107,6 +160,9 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 	}
 
 	 if(keyboard['p'])	{console.log(camera.position);}
+
+	 if(keyboard['g'])	{console.log(gun.rotation);}
+
  }
 
  // prevents camera from leaving platform
@@ -132,6 +188,27 @@ function draw() {
 	
 	
 
+
+	if (gun) {
+		gun.position.x = camera.position.x + 5;
+		gun.position.y = camera.position.y;
+		gun.position.z = camera.position.z + 5;
+
+		let camDirection = new Vector3();
+		controls.getDirection(camDirection);
+		gun.rotation.x = camDirection.x;
+		gun.rotation.y = camDirection.z;
+		gun.rotation.z = camDirection.y;
+		gun.scale.x = .005;
+		gun.scale.y = .005;
+		gun.scale.z = .005;
+	}
+	if (enemy) {
+		enemy.position.x = camera.position.x - 100;
+		enemy.position.y = camera.position.y - 100;
+		enemy.position.z = camera.position.z - 100;
+		enemy.rotation.x = Math.PI / 2;
+	}
 
     requestAnimationFrame(draw);
     renderer.render(scene, camera);
