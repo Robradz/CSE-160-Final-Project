@@ -20,7 +20,9 @@ renderer.setClearColor(0xEEEEEE);
 const controls = new PointerLockControls(camera, renderer.domElement);
 let clock = new THREE.Clock();
 
-camera.position.z = 5000;
+camera.position.x = 500;
+camera.position.y = 1200;
+camera.position.z = 5;
 //controls.update(); //controls.update() must be called after any 
 // manual changes to the camera's transform
 
@@ -36,7 +38,7 @@ scene.add(directionalLight);
 const directionalLight2 = new THREE.DirectionalLight( 0xffffff, 1.0 );
 directionalLight2.position.x = -1;
 directionalLight2.position.y = 1;
-directionalLight2.position.z = -1;
+directionalLight2.position.z = -5;
 scene.add(directionalLight2);
 
 const gltfLoader = new GLTFLoader();
