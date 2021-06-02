@@ -2,6 +2,7 @@ import { OBJLoader } from '../js/OBJLoader.js';
 import { GLTFLoader } from '../js/GLTFLoader.js';
 import { FirstPersonControls } from '../js/FirstPersonCamera.js';
 import { PointerLockControls  } from '../js/PointerLockControl.js';
+import { Vector3 } from './three.module.js';
 
 const loader = new THREE.ObjectLoader();
 
@@ -160,6 +161,9 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 	}
 
 	 if(keyboard['p'])	{console.log(camera.position);}
+
+	 if(keyboard['g'])	{console.log(gun.rotation);}
+
  }
 
  // prevents camera from leaving platform
@@ -186,17 +190,24 @@ function draw() {
 
 
 	if (gun) {
-		gun.position.x = camera.position.x;
+		gun.position.x = camera.position.x + 5;
 		gun.position.y = camera.position.y;
-		gun.position.z = camera.position.z;
-		gun.position.x = camera.rotation.x;
-		gun.position.y = camera.rotation.y;
-		gun.position.z = camera.rotation.z;
+		gun.position.z = camera.position.z + 5;
+
+		let camDirection = new Vector3();
+		controls.getDirection(camDirection);
+		gun.rotation.x = camDirection.x;
+		gun.rotation.y = camDirection.z;
+		gun.rotation.z = camDirection.y;
+		gun.scale.x = .005;
+		gun.scale.y = .005;
+		gun.scale.z = .005;
 	}
 	if (enemy) {
 		enemy.position.x = camera.position.x - 100;
-		enemy.position.y = camera.position.y;
+		enemy.position.y = camera.position.y - 100;
 		enemy.position.z = camera.position.z - 100;
+		enemy.rotation.x = Math.PI / 2;
 	}
 
     requestAnimationFrame(draw);
