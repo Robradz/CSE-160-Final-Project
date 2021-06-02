@@ -42,15 +42,17 @@ directionalLight2.position.z = -5;
 scene.add(directionalLight2);
 
 const gltfLoader = new GLTFLoader();
+let map, gun, enemy;
 
 // Load a glTF resource
 gltfLoader.load(
 	// resource URL
-	'../de_dust2_-_cs_map/scene.gltf',
+	'../gltf/de_dust2_-_cs_map/scene.gltf',
 	// called when the resource is loaded
 	function ( gltf ) {
 
 		scene.add( gltf.scene );
+		map = gltf.scene;
 
 		gltf.animations; // Array<THREE.AnimationClip>
 		gltf.scene; // THREE.Group
@@ -69,7 +71,57 @@ gltfLoader.load(
 	}
 );
 
+gltfLoader.load(
+	// resource URL
+	'../gltf/ak_47/scene.gltf',
+	// called when the resource is loaded
+	function ( gltf ) {
 
+		scene.add( gltf.scene );
+		gun = gltf.scene;
+
+		gltf.animations; // Array<THREE.AnimationClip>
+		gltf.scene; // THREE.Group
+		gltf.scenes; // Array<THREE.Group>
+		gltf.cameras; // Array<THREE.Camera>
+		gltf.asset; // Object
+
+	},
+	// called while loading is progressing
+	function ( xhr ) {
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+	},
+	// called when loading has errors
+	function ( error ) {
+		console.log( 'An error happened' );
+	}
+);
+
+gltfLoader.load(
+	// resource URL
+	'../gltf/enemy/scene.gltf',
+	// called when the resource is loaded
+	function ( gltf ) {
+
+		scene.add( gltf.scene );
+		enemy = gltf.scene;
+
+		gltf.animations; // Array<THREE.AnimationClip>
+		gltf.scene; // THREE.Group
+		gltf.scenes; // Array<THREE.Group>
+		gltf.cameras; // Array<THREE.Camera>
+		gltf.asset; // Object
+
+	},
+	// called while loading is progressing
+	function ( xhr ) {
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+	},
+	// called when loading has errors
+	function ( error ) {
+		console.log( 'An error happened' );
+	}
+);
 
 document.getElementById("accept_control").onclick = ()=>{controls.lock();}
 
@@ -102,6 +154,20 @@ function draw() {
 	let delta = clock.getDelta;
 	renderer.clear();
 	keyPress(delta);
+
+	if (gun) {
+		gun.position.x = camera.position.x;
+		gun.position.y = camera.position.y;
+		gun.position.z = camera.position.z;
+		gun.position.x = camera.rotation.x;
+		gun.position.y = camera.rotation.y;
+		gun.position.z = camera.rotation.z;
+	}
+	if (enemy) {
+		enemy.position.x = camera.position.x - 100;
+		enemy.position.y = camera.position.y;
+		enemy.position.z = camera.position.z - 100;
+	}
 
     requestAnimationFrame(draw);
     renderer.render(scene, camera);
