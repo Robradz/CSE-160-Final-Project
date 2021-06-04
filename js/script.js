@@ -212,8 +212,8 @@ function draw() {
 	if (gun) {
 		
 		gun.position.x = camera.position.x+1;
-		gun.position.y = camera.position.y-0.5;
-		gun.position.z = camera.position.z+0.5;
+		gun.position.y = camera.position.y;
+		gun.position.z = camera.position.z;
 
 		let camDirection = new Vector3();
 		controls.getDirection(camDirection);
@@ -223,13 +223,8 @@ function draw() {
 		//gun.rotation.x = camDirection.x;
 		gun.rotation.y = -1 * camDirection.z;
 		gun.rotation.z =  camDirection.y;
-		
 
-		let pivot = new THREE.Object3D();
-		
-	
-		gun.updateMatrix();
-		gun.position.x += 10;
+
 		gun.scale.x = .005;
 		gun.scale.y = .005;
 		gun.scale.z = .005;
