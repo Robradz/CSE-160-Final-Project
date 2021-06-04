@@ -13,7 +13,7 @@ const scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 10000);
 
 // Creates a rendering context (similar to canvas.getContext(webgl))
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0xEEEEEE);
 
@@ -165,7 +165,10 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 	
 	}
 
-	 if(keyboard['p'])	{console.log(camera.rotation);}
+	 if(keyboard['p'])	{
+		let forward = new Vector3();
+		controls.getDirection(forward);
+		console.log(forward);}
 
 	 if(keyboard['g'])	{console.log(gun.rotation);}
 
@@ -178,6 +181,16 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 	if(x > -1775){camera.position.x = -1775;}
 	if(z < -1590){camera.position.z = -1590;}
 	if(z > -1300){camera.position.z = -1300;}
+ }
+
+ function cameraBound(x, y, z)
+ {
+
+	//if(x < 0.35){camera.position.x = 0.35;}
+	//if(x > -1775){camera.position.x = -1775;}
+	if(z < -0.9){camera.rotation.y = -0.9;}
+	if(z > 0.9){camera.rotation.y = 0.9;}
+
  }
 
 
@@ -212,6 +225,12 @@ function draw() {
 	let delta = clock.getDelta;
 	keyPress(delta);
 	movementBound(camera.position.x, camera.position.y,camera.position.z);
+
+	let forward = new Vector3();
+	controls.getDirection(forward);
+
+
+	cameraBound(forward.x, forward.y, forward.z);
 	renderer.clear();
 	
 	if (gun) {
@@ -226,7 +245,11 @@ function draw() {
 		
 		
 		//gun.rotation.x = camDirection.x;
-		gun.rotation.y = camDirection.z + Math.PI;
+		if (camDirection.x > 0) {
+			gun.rotation.y = -camDirection.z;
+		} else {
+			gun.rotation.y = camDirection.z + Math.PI4;
+		}
 		gun.rotation.z =  camDirection.y;
 
 		//console.log(gun.rotation);
@@ -295,6 +318,10 @@ function RandomizeEnemyPosition() {
 	enemy.position.y = enemyPosY[0];
 	enemy.position.z = enemyPosZ[0];
 }
+
+var material = new THREE.MeshLambertMaterial({
+	map: loader.load('../img/akoverlay.png/')
+  });
 
 // instantiate a loader
 //const loader = new THREE.ImageLoader();
