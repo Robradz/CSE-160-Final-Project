@@ -211,9 +211,10 @@ function draw() {
 	renderer.clear();
 	
 	if (gun) {
-		gun.position.x = camera.position.x + 5;
-		gun.position.y = camera.position.y;
-		gun.position.z = camera.position.z + 5;
+		
+		gun.position.x = camera.position.x+1;
+		gun.position.y = camera.position.y-0.5;
+		gun.position.z = camera.position.z+0.5;
 
 		let camDirection = new Vector3();
 		controls.getDirection(camDirection);
@@ -223,7 +224,13 @@ function draw() {
 		//gun.rotation.x = camDirection.x;
 		gun.rotation.y = -1 * camDirection.z;
 		gun.rotation.z =  camDirection.y;
+		
 
+		let pivot = new THREE.Object3D();
+		
+	
+		gun.updateMatrix();
+		gun.position.x += 10;
 		gun.scale.x = .005;
 		gun.scale.y = .005;
 		gun.scale.z = .005;
@@ -281,3 +288,28 @@ function RandomizeEnemyPosition() {
 	enemy.position.y = enemyPosY[0];
 	enemy.position.z = enemyPosZ[0];
 }
+
+// instantiate a loader
+//const loader = new THREE.ImageLoader();
+
+// load a image resource
+loader.load(
+	// resource URL
+	'../img/akoverlay.png/',
+
+	// onLoad callback
+	function ( image ) {
+		// use the image, e.g. draw part of it on a canvas
+		const canvas = document.createElement( 'canvas' );
+		const context = canvas.getContext( '2d' );
+		context.drawImage( image, 100, 100 );
+	},
+
+	// onProgress callback currently not supported
+	undefined,
+
+	// onError callback
+	function () {
+		console.error( 'An error happened.' );
+	}
+);
