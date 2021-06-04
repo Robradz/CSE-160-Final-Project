@@ -165,7 +165,10 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 	
 	}
 
-	 if(keyboard['p'])	{console.log(camera.rotation);}
+	 if(keyboard['p'])	{
+		let forward = new Vector3();
+		controls.getDirection(forward);
+		console.log(forward);}
 
 	 if(keyboard['g'])	{console.log(gun.rotation);}
 
@@ -221,7 +224,11 @@ function draw() {
 		
 		
 		//gun.rotation.x = camDirection.x;
-		gun.rotation.y = -1 * camDirection.z;
+		if (camDirection.x > 0) {
+			gun.rotation.y = -camDirection.z;
+		} else {
+			gun.rotation.y = camDirection.z + Math.PI;
+		}
 		gun.rotation.z =  camDirection.y;
 		
 
