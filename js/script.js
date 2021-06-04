@@ -14,7 +14,7 @@ let camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeigh
 
 // Creates a rendering context (similar to canvas.getContext(webgl))
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth / 3 * 2, window.innerHeight / 3 * 2);
 renderer.setClearColor(0xEEEEEE);
 
 // Create camera controls
@@ -285,16 +285,20 @@ function shoot() {
 	}
 }
 
-let enemyPosX = [-1600, -1380, -1380, -2000];
-let enemyPosY = [1008, 1120, 1008, 1030];
-let enemyPosZ = [-600, -1400, -950, 0];
+// let enemyPosX = [-1600, -1380, -1380, -2000];
+// let enemyPosY = [1008, 1120, 1008, 1030];
+// let enemyPosZ = [-600, -1400, -950, 0];
+
+let enemyPosX = [-1600, -1600,-1380, -1380, -1380];
+let enemyPosY = [1008, 1008 ,1020, 1120, 1008];
+let enemyPosZ = [-1200, -1600,-1530, -1400, -950];
 
 
 function RandomizeEnemyPosition() {
-	let rand = parseInt(Math.random() * 2);
-	enemy.position.x = enemyPosX[0];
-	enemy.position.y = enemyPosY[0];
-	enemy.position.z = enemyPosZ[0];
+	let rand = parseInt(Math.random() * 5);
+	enemy.position.x = enemyPosX[rand];
+	enemy.position.y = enemyPosY[rand];
+	enemy.position.z = enemyPosZ[rand];
 }
 
 // instantiate a loader
