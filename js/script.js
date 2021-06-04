@@ -277,9 +277,7 @@ function draw() {
 
 	if (enemy && !spawned) {
 		spawned = true;
-		enemy.position.x = camera.position.x - 100;
-		enemy.position.y = camera.position.y;
-		enemy.position.z = camera.position.z - 100;
+		RandomizeEnemyPosition();
 		enemy.rotation.x = Math.PI / 2;
 	}
 
