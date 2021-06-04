@@ -202,6 +202,11 @@ audioLoader.load( '../audio/ak47.ogg', function( buffer ) {
 //controls.addEventListener('unlock', () => menuPanel.style.display = 'block');
 let spawned = false;
 
+var mesh = new THREE.Mesh( new THREE.SphereGeometry( 5, 16, 8 ), new THREE.MeshNormalMaterial() );
+mesh.position.z = - 1; // some negative number
+
+camera.add( mesh );
+
 function draw() {
 	// keyboard stuff
 	let delta = clock.getDelta;
@@ -211,8 +216,8 @@ function draw() {
 	
 	if (gun) {
 		
-		gun.position.x = camera.position.x+1;
-		gun.position.y = camera.position.y;
+		gun.position.x = camera.position.x;
+		gun.position.y = camera.position.y - 1;
 		gun.position.z = camera.position.z;
 
 		let camDirection = new Vector3();
@@ -221,10 +226,15 @@ function draw() {
 		
 		
 		//gun.rotation.x = camDirection.x;
-		gun.rotation.y = -1 * camDirection.z;
+		gun.rotation.y = camDirection.z + Math.PI;
 		gun.rotation.z =  camDirection.y;
 
+		//console.log(gun.rotation);
 
+		let pivot = new THREE.Object3D();
+		
+	
+		gun.updateMatrix();
 		gun.scale.x = .005;
 		gun.scale.y = .005;
 		gun.scale.z = .005;
@@ -289,24 +299,24 @@ function RandomizeEnemyPosition() {
 // instantiate a loader
 //const loader = new THREE.ImageLoader();
 
-// load a image resource
-loader.load(
-	// resource URL
-	'../img/akoverlay.png/',
+// // load a image resource
+// loader.load(
+// 	// resource URL
+// 	'../img/akoverlay.png/',
 
-	// onLoad callback
-	function ( image ) {
-		// use the image, e.g. draw part of it on a canvas
-		const canvas = document.createElement( 'canvas' );
-		const context = canvas.getContext( '2d' );
-		context.drawImage( image, 100, 100 );
-	},
+// 	// onLoad callback
+// 	function ( image ) {
+// 		// use the image, e.g. draw part of it on a canvas
+// 		const canvas = document.createElement( 'canvas' );
+// 		const context = canvas.getContext( '2d' );
+// 		context.drawImage( image, 100, 100 );
+// 	},
 
-	// onProgress callback currently not supported
-	undefined,
+// 	// onProgress callback currently not supported
+// 	undefined,
 
-	// onError callback
-	function () {
-		console.error( 'An error happened.' );
-	}
-);
+// 	// onError callback
+// 	function () {
+// 		console.error( 'An error happened.' );
+// 	}
+// );
