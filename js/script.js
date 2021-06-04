@@ -187,11 +187,10 @@ const audioLoader = new THREE.AudioLoader();
 audioLoader.load( '../audio/ak47.ogg', function( buffer ) {
 	sound.setBuffer( buffer );
 	sound.setLoop( true );
-	sound.setVolume( 0.5 );
+	sound.setVolume( 1 );
 	sound.play();
 });
 
-sound.play();
 
 
 //controls.addEventListener('lock', () => menuPanel.style.display = 'none');
@@ -212,9 +211,13 @@ function draw() {
 
 		let camDirection = new Vector3();
 		controls.getDirection(camDirection);
-		gun.rotation.x = camera.rotation.x;
-		gun.rotation.y = camera.rotation.y;
-		gun.rotation.z = camera.rotation.z;
+
+		
+		
+		//gun.rotation.x = camDirection.x;
+		gun.rotation.y = -1 * camDirection.z;
+		gun.rotation.z =  camDirection.y;
+
 		gun.scale.x = .005;
 		gun.scale.y = .005;
 		gun.scale.z = .005;
