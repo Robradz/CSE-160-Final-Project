@@ -211,9 +211,9 @@ function draw() {
 	
 	if (gun) {
 		
-		gun.position.x = camera.position.x+1;
-		gun.position.y = camera.position.y-0.5;
-		gun.position.z = camera.position.z+0.5;
+		gun.position.x = camera.position.x;
+		gun.position.y = camera.position.y - 1;
+		gun.position.z = camera.position.z;
 
 		let camDirection = new Vector3();
 		controls.getDirection(camDirection);
@@ -229,7 +229,6 @@ function draw() {
 		
 	
 		gun.updateMatrix();
-		gun.position.x += 10;
 		gun.scale.x = .005;
 		gun.scale.y = .005;
 		gun.scale.z = .005;
@@ -294,24 +293,24 @@ function RandomizeEnemyPosition() {
 // instantiate a loader
 //const loader = new THREE.ImageLoader();
 
-// load a image resource
-loader.load(
-	// resource URL
-	'../img/akoverlay.png/',
+// // load a image resource
+// loader.load(
+// 	// resource URL
+// 	'../img/akoverlay.png/',
 
-	// onLoad callback
-	function ( image ) {
-		// use the image, e.g. draw part of it on a canvas
-		const canvas = document.createElement( 'canvas' );
-		const context = canvas.getContext( '2d' );
-		context.drawImage( image, 100, 100 );
-	},
+// 	// onLoad callback
+// 	function ( image ) {
+// 		// use the image, e.g. draw part of it on a canvas
+// 		const canvas = document.createElement( 'canvas' );
+// 		const context = canvas.getContext( '2d' );
+// 		context.drawImage( image, 100, 100 );
+// 	},
 
-	// onProgress callback currently not supported
-	undefined,
+// 	// onProgress callback currently not supported
+// 	undefined,
 
-	// onError callback
-	function () {
-		console.error( 'An error happened.' );
-	}
-);
+// 	// onError callback
+// 	function () {
+// 		console.error( 'An error happened.' );
+// 	}
+// );
