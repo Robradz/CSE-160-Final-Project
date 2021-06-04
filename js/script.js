@@ -42,6 +42,12 @@ directionalLight2.position.y = 1;
 directionalLight2.position.z = -5;
 scene.add(directionalLight2);
 
+const directionalLight3 = new THREE.DirectionalLight( 0xffffff, 1.0 );
+directionalLight3.position.x = 0;
+directionalLight3.position.y = 0;
+directionalLight3.position.z = 3;
+scene.add(directionalLight3);
+
 const gltfLoader = new GLTFLoader();
 let map, gun, enemy;
 
