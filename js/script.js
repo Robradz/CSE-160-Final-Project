@@ -196,6 +196,7 @@ sound.play();
 
 //controls.addEventListener('lock', () => menuPanel.style.display = 'none');
 //controls.addEventListener('unlock', () => menuPanel.style.display = 'block');
+let spawned = false;
 
 function draw() {
 	// keyboard stuff
@@ -218,9 +219,11 @@ function draw() {
 		gun.scale.y = .005;
 		gun.scale.z = .005;
 	}
-	if (enemy) {
+
+	if (enemy && !spawned) {
+		spawned = true;
 		enemy.position.x = camera.position.x - 100;
-		enemy.position.y = camera.position.y - 100;
+		enemy.position.y = camera.position.y;
 		enemy.position.z = camera.position.z - 100;
 		enemy.rotation.x = Math.PI / 2;
 	}
@@ -231,9 +234,11 @@ function draw() {
 
 draw();
 
-window.addEventListener('mousedown', (e) => { checkHitReg(); });
+window.addEventListener('mousedown', (e) => { shoot(); });
 
-function checkHitReg() {
+function shoot() {
+	// Play shoot sound
+
 	// Find forward facing vector
 	let forward = new Vector3();
 	controls.getDirection(forward);
@@ -257,8 +262,13 @@ function checkHitReg() {
 		}
 }
 
-
+let enemyPosX = [-2000];
+let enemyPosY = [1030];
+let enemyPosZ = [0];
 
 function RandomizeEnemyPosition() {
-
+	let rand = parseInt(Math.random() * 2);
+	enemy.position.x = enemyPosX[0];
+	enemy.position.y = enemyPosY[0];
+	enemy.position.z = enemyPosZ[0];
 }
