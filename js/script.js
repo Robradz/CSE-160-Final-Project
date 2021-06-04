@@ -245,6 +245,8 @@ draw();
 window.addEventListener('mousedown', (e) => { shoot(); });
 
 function shoot() {
+	if (!gun) {return;}
+
 	// Play shoot sound
 	if (sound.isPlaying) { sound.stop(); }
 	sound.play();
@@ -267,18 +269,17 @@ function shoot() {
 	    Math.abs(forward.y - targetVector.y) < 0.05 && 
 		Math.abs(forward.z - targetVector.z) < 0.05) {
 			RandomizeEnemyPosition();
-		} else {
-			console.log('Miss');
-		}
+	}
 }
 
-let enemyPosX = [-2000];
-let enemyPosY = [1030];
-let enemyPosZ = [0];
+let enemyPosX = [-1600, -1380, -1380, -2000];
+let enemyPosY = [1008, 1120, 1008, 1030];
+let enemyPosZ = [-600, -1400, -950, 0];
+
 
 function RandomizeEnemyPosition() {
-	let rand = parseInt(Math.random() * 2);
-	enemy.position.x = enemyPosX[0];
-	enemy.position.y = enemyPosY[0];
-	enemy.position.z = enemyPosZ[0];
+	let rand = parseInt(Math.random() * 4);
+	enemy.position.x = enemyPosX[rand];
+	enemy.position.y = enemyPosY[rand];
+	enemy.position.z = enemyPosZ[rand];
 }
