@@ -192,9 +192,8 @@ const sound = new THREE.Audio( listener );
 const audioLoader = new THREE.AudioLoader();
 audioLoader.load( '../audio/ak47.ogg', function( buffer ) {
 	sound.setBuffer( buffer );
-	sound.setLoop( true );
-	sound.setVolume( 1 );
-	sound.play();
+	sound.setLoop(false);
+	sound.setVolume(0.1);
 });
 
 
@@ -253,7 +252,11 @@ draw();
 window.addEventListener('mousedown', (e) => { shoot(); });
 
 function shoot() {
+	if (!gun) {return;}
+
 	// Play shoot sound
+	if (sound.isPlaying) { sound.stop(); }
+	sound.play();
 
 	// Find forward facing vector
 	let forward = new Vector3();
@@ -273,14 +276,13 @@ function shoot() {
 	    Math.abs(forward.y - targetVector.y) < 0.05 && 
 		Math.abs(forward.z - targetVector.z) < 0.05) {
 			RandomizeEnemyPosition();
-		} else {
-			console.log('Miss');
-		}
+	}
 }
 
-let enemyPosX = [-2000];
-let enemyPosY = [1030];
-let enemyPosZ = [0];
+let enemyPosX = [-1600, -1380, -1380, -2000];
+let enemyPosY = [1008, 1120, 1008, 1030];
+let enemyPosZ = [-600, -1400, -950, 0];
+
 
 function RandomizeEnemyPosition() {
 	let rand = parseInt(Math.random() * 2);
