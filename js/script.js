@@ -200,6 +200,8 @@ camera.add( listener );
 
 // create a global audio source
 const sound = new THREE.Audio( listener );
+const dink = new THREE.Audio( listener );
+const oof = new THREE.Audio( listener );
 
 // load a sound and set it as the Audio object's buffer
 const audioLoader = new THREE.AudioLoader();
@@ -209,7 +211,17 @@ audioLoader.load( '../audio/ak47.ogg', function( buffer ) {
 	sound.setVolume(0.1);
 });
 
+audioLoader.load( '../audio/dink.ogg', function( buffer ) {
+	dink.setBuffer( buffer );
+	dink.setLoop(false);
+	dink.setVolume(0.1);
+});
 
+audioLoader.load( '../audio/oof.ogg', function( buffer ) {
+	oof.setBuffer( buffer );
+	oof.setLoop(false);
+	oof.setVolume(0.1);
+});
 
 //controls.addEventListener('lock', () => menuPanel.style.display = 'none');
 //controls.addEventListener('unlock', () => menuPanel.style.display = 'block');
@@ -230,7 +242,7 @@ function draw() {
 	controls.getDirection(forward);
 
 
-	cameraBound(forward.x, forward.y, forward.z);
+	//cameraBound(forward.x, forward.y, forward.z);
 	renderer.clear();
 	
 	if (gun) {
@@ -303,17 +315,14 @@ function shoot() {
 	if (Math.abs(forward.x - targetVector.x) < 0.05 &&
 	    Math.abs(forward.y - targetVector.y) < 0.05 && 
 		Math.abs(forward.z - targetVector.z) < 0.05) {
+			if (oof.isPlaying) { oof.stop(); }
+			oof.play();
 			RandomizeEnemyPosition();
 	}
 }
-
-// let enemyPosX = [-1600, -1380, -1380, -2000];
-// let enemyPosY = [1008, 1120, 1008, 1030];
-// let enemyPosZ = [-600, -1400, -950, 0];
-
-let enemyPosX = [-1600, -1600,-1380, -1380, -1380];
-let enemyPosY = [1008, 1008 ,1020, 1120, 1008];
-let enemyPosZ = [-1200, -1600,-1530, -1400, -950];
+let enemyPosX = [-1600, -1600, -1380, -1380, -1380];
+let enemyPosY = [ 1008,  1008,  1020,  1120,  1008];
+let enemyPosZ = [-1200, -1600, -1530, -1400, -950 ];
 
 
 function RandomizeEnemyPosition() {
@@ -322,32 +331,3 @@ function RandomizeEnemyPosition() {
 	enemy.position.y = enemyPosY[rand];
 	enemy.position.z = enemyPosZ[rand];
 }
-
-var material = new THREE.MeshLambertMaterial({
-	map: loader.load('../img/akoverlay.png/')
-  });
-
-// instantiate a loader
-//const loader = new THREE.ImageLoader();
-
-// // load a image resource
-// loader.load(
-// 	// resource URL
-// 	'../img/akoverlay.png/',
-
-// 	// onLoad callback
-// 	function ( image ) {
-// 		// use the image, e.g. draw part of it on a canvas
-// 		const canvas = document.createElement( 'canvas' );
-// 		const context = canvas.getContext( '2d' );
-// 		context.drawImage( image, 100, 100 );
-// 	},
-
-// 	// onProgress callback currently not supported
-// 	undefined,
-
-// 	// onError callback
-// 	function () {
-// 		console.error( 'An error happened.' );
-// 	}
-// );
