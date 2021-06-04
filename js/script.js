@@ -233,8 +233,14 @@ function checkHitReg() {
 	if (Math.abs(forward.x - targetVector.x) < 0.05 &&
 	    Math.abs(forward.y - targetVector.y) < 0.05 && 
 		Math.abs(forward.z - targetVector.z) < 0.05) {
-			console.log('Hit');
+			RandomizeEnemyPosition();
 		} else {
 			console.log('Miss');
 		}
+}
+
+
+
+function RandomizeEnemyPosition() {
+
 }
