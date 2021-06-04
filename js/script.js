@@ -159,7 +159,7 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 	
 	}
 
-	 if(keyboard['p'])	{console.log(camera.position);}
+	 if(keyboard['p'])	{console.log(camera.rotation);}
 
 	 if(keyboard['g'])	{console.log(gun.rotation);}
 
@@ -203,9 +203,6 @@ function draw() {
 	movementBound(camera.position.x, camera.position.y,camera.position.z);
 	renderer.clear();
 	
-	
-
-
 	if (gun) {
 		gun.position.x = camera.position.x + 5;
 		gun.position.y = camera.position.y;
@@ -213,11 +210,13 @@ function draw() {
 
 		let camDirection = new Vector3();
 		controls.getDirection(camDirection);
+
 		
 		
 		//gun.rotation.x = camDirection.x;
 		gun.rotation.y = -1 * camDirection.z;
 		gun.rotation.z =  camDirection.y;
+
 		gun.scale.x = .005;
 		gun.scale.y = .005;
 		gun.scale.z = .005;
@@ -232,4 +231,37 @@ function draw() {
     requestAnimationFrame(draw);
     renderer.render(scene, camera);
 }
+
 draw();
+
+window.addEventListener('mousedown', (e) => { checkHitReg(); });
+
+function checkHitReg() {
+	// Find forward facing vector
+	let forward = new Vector3();
+	controls.getDirection(forward);
+
+	// find vector between enemy and camera position
+	let targetVector = new Vector3();
+	targetVector.x = enemy.position.x - camera.position.x;
+	targetVector.y = enemy.position.y + 75 - camera.position.y;
+	targetVector.z = enemy.position.z - camera.position.z;
+
+	forward.normalize();
+	targetVector.normalize();
+
+	// compare them, if differences are small, do something
+	if (Math.abs(forward.x - targetVector.x) < 0.05 &&
+	    Math.abs(forward.y - targetVector.y) < 0.05 && 
+		Math.abs(forward.z - targetVector.z) < 0.05) {
+			RandomizeEnemyPosition();
+		} else {
+			console.log('Miss');
+		}
+}
+
+
+
+function RandomizeEnemyPosition() {
+
+}
