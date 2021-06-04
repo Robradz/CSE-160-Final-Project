@@ -183,6 +183,16 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 	if(z > -1300){camera.position.z = -1300;}
  }
 
+ function cameraBound(x, y, z)
+ {
+
+	//if(x < 0.35){camera.position.x = 0.35;}
+	//if(x > -1775){camera.position.x = -1775;}
+	if(z < -0.9){camera.rotation.y = -0.9;}
+	if(z > 0.9){camera.rotation.y = 0.9;}
+
+ }
+
 
  // create an AudioListener and add it to the camera
 const listener = new THREE.AudioListener();
@@ -205,11 +215,22 @@ audioLoader.load( '../audio/ak47.ogg', function( buffer ) {
 //controls.addEventListener('unlock', () => menuPanel.style.display = 'block');
 let spawned = false;
 
+var mesh = new THREE.Mesh( new THREE.SphereGeometry( 5, 16, 8 ), new THREE.MeshNormalMaterial() );
+mesh.position.z = - 1; // some negative number
+
+camera.add( mesh );
+
 function draw() {
 	// keyboard stuff
 	let delta = clock.getDelta;
 	keyPress(delta);
 	movementBound(camera.position.x, camera.position.y,camera.position.z);
+
+	let forward = new Vector3();
+	controls.getDirection(forward);
+
+
+	cameraBound(forward.x, forward.y, forward.z);
 	renderer.clear();
 	
 	if (gun) {
@@ -227,10 +248,11 @@ function draw() {
 		if (camDirection.x > 0) {
 			gun.rotation.y = -camDirection.z;
 		} else {
-			gun.rotation.y = camDirection.z + Math.PI;
+			gun.rotation.y = camDirection.z + Math.PI4;
 		}
 		gun.rotation.z =  camDirection.y;
-		
+
+		//console.log(gun.rotation);
 
 		let pivot = new THREE.Object3D();
 		
@@ -300,6 +322,10 @@ function RandomizeEnemyPosition() {
 	enemy.position.y = enemyPosY[rand];
 	enemy.position.z = enemyPosZ[rand];
 }
+
+var material = new THREE.MeshLambertMaterial({
+	map: loader.load('../img/akoverlay.png/')
+  });
 
 // instantiate a loader
 //const loader = new THREE.ImageLoader();
