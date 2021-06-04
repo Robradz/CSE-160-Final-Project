@@ -186,9 +186,8 @@ const sound = new THREE.Audio( listener );
 const audioLoader = new THREE.AudioLoader();
 audioLoader.load( '../audio/ak47.ogg', function( buffer ) {
 	sound.setBuffer( buffer );
-	sound.setLoop( true );
-	sound.setVolume( 1 );
-	sound.play();
+	sound.setLoop(false);
+	sound.setVolume(0.1);
 });
 
 
@@ -205,9 +204,9 @@ function draw() {
 	renderer.clear();
 	
 	if (gun) {
-		gun.position.x = camera.position.x + 5;
-		gun.position.y = camera.position.y;
-		gun.position.z = camera.position.z + 5;
+		gun.position.x = camera.position.x;
+		gun.position.y = camera.position.y - 1;
+		gun.position.z = camera.position.z;
 
 		let camDirection = new Vector3();
 		controls.getDirection(camDirection);
@@ -241,6 +240,8 @@ window.addEventListener('mousedown', (e) => { shoot(); });
 
 function shoot() {
 	// Play shoot sound
+	if (sound.isPlaying) { sound.stop(); }
+	sound.play();
 
 	// Find forward facing vector
 	let forward = new Vector3();
