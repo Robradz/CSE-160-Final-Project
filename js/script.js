@@ -301,6 +301,20 @@ draw();
 
 window.addEventListener('mousedown', (e) => { shoot(); });
 
+let total_shots = 0;
+let hits = 0;
+
+var text2 = document.createElement('div');
+text2.style.position = 'absolute';
+//text2.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
+text2.style.width = 200;
+text2.style.height = 200;
+text2.style.backgroundColor = "white";
+
+
+
+
+
 function shoot() {
 	if (!gun) {return;}
 
@@ -311,6 +325,7 @@ function shoot() {
 	// Find forward facing vector
 	let forward = new Vector3();
 	controls.getDirection(forward);
+	total_shots +=1 ;
 
 	// find vector between enemy and camera position
 	let targetVector = new Vector3();
@@ -328,7 +343,15 @@ function shoot() {
 			if (oof.isPlaying) { oof.stop(); }
 			oof.play();
 			RandomizeEnemyPosition();
+			hits += 1;
 	}
+
+	text2.innerHTML = "Accuracy: ";
+	text2.innerHTML += Math.round(hits/total_shots*100);
+	text2.innerHTML += '%';
+	text2.style.top = 60 + 'px';
+	text2.style.left = 60 + 'px';
+	document.body.appendChild(text2);
 }
 let enemyPosX = [-1600, -1600, -1380, -1380, -1380];
 let enemyPosY = [ 1008,  1008,  1020,  1120,  1008];
