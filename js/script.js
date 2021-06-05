@@ -64,7 +64,7 @@ let map, gun, enemy;
 // Load a glTF resource
 gltfLoader.load(
 	// resource URL
-	'../gltf/de_dust2_-_cs_map/scene.gltf',
+	'./gltf/de_dust2_-_cs_map/scene.gltf',
 	// called when the resource is loaded
 	function ( gltf ) {
 
@@ -90,7 +90,7 @@ gltfLoader.load(
 
 gltfLoader.load(
 	// resource URL
-	'../gltf/ak_47/scene.gltf',
+	'./gltf/ak_47/scene.gltf',
 	// called when the resource is loaded
 	function ( gltf ) {
 
@@ -116,7 +116,7 @@ gltfLoader.load(
 
 gltfLoader.load(
 	// resource URL
-	'../gltf/enemy/scene.gltf',
+	'./gltf/enemy/scene.gltf',
 	// called when the resource is loaded
 	function ( gltf ) {
 
@@ -218,25 +218,25 @@ const reload = new THREE.Audio( listener );
 
 // load a sound and set it as the Audio object's buffer
 const audioLoader = new THREE.AudioLoader();
-audioLoader.load( '../audio/ak47.ogg', function( buffer ) {
+audioLoader.load( './audio/ak47.ogg', function( buffer ) {
 	sound.setBuffer( buffer );
 	sound.setLoop(false);
 	sound.setVolume(0.1);
 });
 
-audioLoader.load( '../audio/dink.ogg', function( buffer ) {
+audioLoader.load( './audio/dink.ogg', function( buffer ) {
 	dink.setBuffer( buffer );
 	dink.setLoop(false);
 	dink.setVolume(0.1);
 });
 
-audioLoader.load( '../audio/oof.ogg', function( buffer ) {
+audioLoader.load( './audio/oof.ogg', function( buffer ) {
 	oof.setBuffer( buffer );
 	oof.setLoop(false);
 	oof.setVolume(0.1);
 });
 
-audioLoader.load( '../audio/ak_rl_1.wav', function( buffer ) {
+audioLoader.load( './audio/ak_rl_1.wav', function( buffer ) {
 	reload.setBuffer( buffer );
 	reload.setLoop(false);
 	reload.setVolume(0.2);
