@@ -19,7 +19,7 @@ camera.position.x = -1900;
 camera.position.y = 1130;
 camera.position.z = -1400;
 
-let light1 = new THREE.PointLight( 0xffffff, 1, 10000);
+let light1 = new THREE.PointLight( 0xffffff, 0.5, 1000);
 light1.position.set(-1900, 1300, -1400);
 light1.castShadow = true;
 scene.add(light1);
@@ -32,7 +32,7 @@ scene.add( sphere );
 
 clock.start();
 
-let animate = false;
+let animate = true;
 
 //controls.update(); //controls.update() must be called after any 
 // manual changes to the camera's transform
@@ -166,6 +166,7 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 	 
 	 // reload
 	 if(keyboard['r'])	{
+		 if (reload.isPlaying) { reload.stop(); }
 		 reload.play();
 		 clip = 20;
 		 text3.innerHTML = "Ammo: ";
@@ -236,9 +237,9 @@ audioLoader.load( '../audio/oof.ogg', function( buffer ) {
 });
 
 audioLoader.load( '../audio/ak_rl_1.wav', function( buffer ) {
-	oof.setBuffer( buffer );
-	oof.setLoop(false);
-	oof.setVolume(0.2);
+	reload.setBuffer( buffer );
+	reload.setLoop(false);
+	reload.setVolume(0.2);
 });
 
 //controls.addEventListener('lock', () => menuPanel.style.display = 'none');
@@ -341,11 +342,8 @@ text3.style.top = 90 + 'px';
 text3.style.left = 60 + 'px';
 document.body.appendChild(text3);
 
-
-function toggleAnimation() {
-	animate = !animate;
-}
-
+let toggleAnimationButton = document.getElementById("toggleAnimationButton");
+toggleAnimationButton.onclick = function() {animate = !animate};
 
 function shoot() {
 	if (!gun) {return;}
