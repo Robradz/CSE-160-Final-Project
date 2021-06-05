@@ -163,17 +163,18 @@ addEventListener('keyup', (e)=>{keyboard[e.key] = false;});
 	 if(keyboard['d'])	{controls.moveRight(speed);}
 	 // move right
 	 if(keyboard['a'])	{controls.moveRight(-speed);}
-
-	 // crouch
-	 if(keyboard['c'])	
-	 {
-		crouch = !crouch;
-
-		if(crouch){camera.position.y = 1080;}
-		else{camera.position.y = 1130;}
-		
-	
-	}
+	 
+	 // reload
+	 if(keyboard['r'])	{
+		 reload.play();
+		 clip = 20;
+		 text3.innerHTML = "Ammo: ";
+		 text3.innerHTML += clip;
+		 text3.innerHTML += "/20";
+		 text3.style.top = 90 + 'px';
+		 text3.style.left = 60 + 'px';
+		 document.body.appendChild(text3);
+		}
 
 	 if(keyboard['p'])	{
 		let forward = new Vector3();
@@ -212,6 +213,7 @@ camera.add( listener );
 const sound = new THREE.Audio( listener );
 const dink = new THREE.Audio( listener );
 const oof = new THREE.Audio( listener );
+const reload = new THREE.Audio( listener );
 
 // load a sound and set it as the Audio object's buffer
 const audioLoader = new THREE.AudioLoader();
@@ -231,6 +233,12 @@ audioLoader.load( '../audio/oof.ogg', function( buffer ) {
 	oof.setBuffer( buffer );
 	oof.setLoop(false);
 	oof.setVolume(0.1);
+});
+
+audioLoader.load( '../audio/ak_rl_1.wav', function( buffer ) {
+	oof.setBuffer( buffer );
+	oof.setLoop(false);
+	oof.setVolume(0.2);
 });
 
 //controls.addEventListener('lock', () => menuPanel.style.display = 'none');
@@ -305,8 +313,9 @@ draw();
 
 window.addEventListener('mousedown', (e) => { shoot(); });
 
-let total_shots = 0;
+let total_shots = -1;
 let hits = 0;
+let clip = 20;
 
 var text2 = document.createElement('div');
 text2.style.position = 'absolute';
@@ -314,6 +323,23 @@ text2.style.position = 'absolute';
 text2.style.width = 200;
 text2.style.height = 200;
 text2.style.backgroundColor = "white";
+text2.style.top = 60 + 'px';
+text2.style.left = 60 + 'px';
+text2.innerHTML = "Accuracy";
+document.body.appendChild(text2);
+
+var text3 = document.createElement('div');
+text3.style.position = 'absolute';
+//text2.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
+text3.style.width = 200;
+text3.style.height = 200;
+text3.style.backgroundColor = "white";
+text3.innerHTML = "Ammo: ";
+text3.innerHTML += clip;
+text3.innerHTML += "/20";
+text3.style.top = 90 + 'px';
+text3.style.left = 60 + 'px';
+document.body.appendChild(text3);
 
 
 function toggleAnimation() {
@@ -323,6 +349,7 @@ function toggleAnimation() {
 
 function shoot() {
 	if (!gun) {return;}
+	if (clip == 0) {return;}
 
 	// Play shoot sound
 	if (sound.isPlaying) { sound.stop(); }
@@ -332,6 +359,7 @@ function shoot() {
 	let forward = new Vector3();
 	controls.getDirection(forward);
 	total_shots +=1 ;
+	clip -=1;
 
 	// find vector between enemy and camera position
 	let targetVector = new Vector3();
@@ -358,6 +386,14 @@ function shoot() {
 	text2.style.top = 60 + 'px';
 	text2.style.left = 60 + 'px';
 	document.body.appendChild(text2);
+
+	text3.innerHTML = "Ammo: ";
+	text3.innerHTML += clip;
+	text3.innerHTML += "/20";
+	text3.style.top = 90 + 'px';
+	text3.style.left = 60 + 'px';
+	document.body.appendChild(text3);
+
 }
 let enemyPosX = [-1600, -1600, -1380, -1380, -1380];
 let enemyPosY = [ 1008,  1008,  1020,  1120,  1008];
