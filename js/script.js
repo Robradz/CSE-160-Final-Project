@@ -316,7 +316,7 @@ window.addEventListener('mousedown', (e) => { shoot(); });
 
 let total_shots = -1;
 let hits = 0;
-let clip = 20;
+let clip = 21;
 
 var text2 = document.createElement('div');
 text2.style.position = 'absolute';
@@ -326,7 +326,7 @@ text2.style.height = 200;
 text2.style.backgroundColor = "white";
 text2.style.top = 60 + 'px';
 text2.style.left = 60 + 'px';
-text2.innerHTML = "Accuracy";
+text2.innerHTML = "Accuracy: 0%";
 document.body.appendChild(text2);
 
 var text3 = document.createElement('div');
@@ -335,9 +335,7 @@ text3.style.position = 'absolute';
 text3.style.width = 200;
 text3.style.height = 200;
 text3.style.backgroundColor = "white";
-text3.innerHTML = "Ammo: ";
-text3.innerHTML += clip;
-text3.innerHTML += "/20";
+text3.innerHTML = "Ammo: 20/20";
 text3.style.top = 90 + 'px';
 text3.style.left = 60 + 'px';
 document.body.appendChild(text3);
@@ -378,9 +376,14 @@ function shoot() {
 			hits += 1;
 	}
 
-	text2.innerHTML = "Accuracy: ";
-	text2.innerHTML += Math.round(hits/total_shots*100);
-	text2.innerHTML += '%';
+	if(hits == 0 && total_shots == 0){text2.innerHTML = "Accuracy: 0%";}
+	else{
+		text2.innerHTML = "Accuracy: ";
+		text2.innerHTML += Math.round(hits/total_shots*100);
+		text2.innerHTML += '%';
+	}
+
+	
 	text2.style.top = 60 + 'px';
 	text2.style.left = 60 + 'px';
 	document.body.appendChild(text2);
