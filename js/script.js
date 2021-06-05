@@ -1,12 +1,6 @@
-import { OBJLoader } from '../js/OBJLoader.js';
 import { GLTFLoader } from '../js/GLTFLoader.js';
-import { FirstPersonControls } from '../js/FirstPersonCamera.js';
 import { PointerLockControls  } from '../js/PointerLockControl.js';
 import { Vector3 } from './three.module.js';
-
-const loader = new THREE.ObjectLoader();
-
-const objLoader = new OBJLoader();
 
 const scene = new THREE.Scene();
 
@@ -24,6 +18,20 @@ let clock = new THREE.Clock();
 camera.position.x = -1900;
 camera.position.y = 1130;
 camera.position.z = -1400;
+
+let light1 = new THREE.PointLight( 0xffffff, 1, 10000);
+light1.position.set(-1900, 1300, -1400);
+light1.castShadow = true;
+scene.add(light1);
+
+const geometry = new THREE.SphereGeometry( 5, 32, 32 );
+const material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+let sphere = new THREE.Mesh( geometry, material );
+sphere.position.set(-1900, 1300, -1400);
+scene.add( sphere );
+
+clock.start();
+
 //controls.update(); //controls.update() must be called after any 
 // manual changes to the camera's transform
 
@@ -249,6 +257,10 @@ function draw() {
 	let forward = new Vector3();
 	controls.getDirection(forward);
 
+	light1.position.x = 300 * Math.cos(Math.PI * clock.getElapsedTime()) - 1900;
+	light1.position.z = 300 * Math.sin(Math.PI * clock.getElapsedTime()) - 1400;
+	sphere.position.x = light1.position.x;
+	sphere.position.z = light1.position.z;
 
 	//cameraBound(forward.x, forward.y, forward.z);
 	renderer.clear();
