@@ -32,6 +32,8 @@ scene.add( sphere );
 
 clock.start();
 
+let animate = false;
+
 //controls.update(); //controls.update() must be called after any 
 // manual changes to the camera's transform
 
@@ -249,10 +251,12 @@ function draw() {
 	let forward = new Vector3();
 	controls.getDirection(forward);
 
-	light1.position.x = 300 * Math.cos(Math.PI * clock.getElapsedTime()) - 1900;
-	light1.position.z = 300 * Math.sin(Math.PI * clock.getElapsedTime()) - 1400;
-	sphere.position.x = light1.position.x;
-	sphere.position.z = light1.position.z;
+	if (animate) {
+		light1.position.x = 300 * Math.cos(Math.PI * clock.getElapsedTime()) - 1900;
+		light1.position.z = 300 * Math.sin(Math.PI * clock.getElapsedTime()) - 1400;
+		sphere.position.x = light1.position.x;
+		sphere.position.z = light1.position.z;
+	}
 
 	//cameraBound(forward.x, forward.y, forward.z);
 	renderer.clear();
@@ -312,7 +316,9 @@ text2.style.height = 200;
 text2.style.backgroundColor = "white";
 
 
-
+function toggleAnimation() {
+	animate = !animate;
+}
 
 
 function shoot() {
